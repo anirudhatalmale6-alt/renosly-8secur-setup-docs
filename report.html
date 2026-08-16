@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Renosly &amp; 8secur - Setup Documentation</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "DejaVu Sans", Arial, Helvetica, sans-serif; color: #1a1a1a; font-size: 10.5pt; line-height: 1.5; margin: 0; }
+  h1 { font-size: 20pt; margin: 0 0 2mm; letter-spacing: -0.3px; }
+  h2 { font-size: 13pt; margin: 9mm 0 3mm; padding-bottom: 1.5mm; border-bottom: 2px solid #1a1a1a; }
+  h3 { font-size: 11pt; margin: 5mm 0 2mm; }
+  p { margin: 0 0 3mm; }
+  .sub { color: #555; font-size: 9.5pt; margin-bottom: 6mm; }
+  table { width: 100%; border-collapse: collapse; margin: 3mm 0 5mm; font-size: 9.5pt; }
+  th, td { text-align: left; padding: 2.2mm 2.5mm; border-bottom: 1px solid #ddd; vertical-align: top; }
+  th { background: #f4f4f4; font-weight: bold; border-bottom: 1.5px solid #bbb; }
+  code { font-family: "DejaVu Sans Mono", monospace; font-size: 9pt; background: #f4f4f4; padding: 0.5mm 1mm; }
+  .ok { color: #17683a; font-weight: bold; }
+  .bad { color: #a3231f; font-weight: bold; }
+  .warn { color: #8a5a00; font-weight: bold; }
+  .box { border: 1px solid #ddd; border-left: 4px solid #1a1a1a; padding: 3mm 4mm; margin: 4mm 0; background: #fafafa; }
+  .box.action { border-left-color: #a3231f; background: #fdf6f6; }
+  ol, ul { margin: 0 0 3mm; padding-left: 6mm; }
+  li { margin-bottom: 1.5mm; }
+  .fr { color: #333; font-style: italic; font-size: 9.5pt; }
+  .pagebreak { page-break-before: always; }
+  .shot { width: 100%; border: 1px solid #ccc; margin: 2mm 0 1mm; }
+  .cap { font-size: 8.5pt; color: #666; margin-bottom: 4mm; }
+  .grid { display: flex; gap: 4mm; }
+  .grid > div { flex: 1; }
+  .foot { margin-top: 8mm; padding-top: 3mm; border-top: 1px solid #ddd; font-size: 8.5pt; color: #666; }
+</style>
+</head>
+<body>
+
+<h1>Renosly &amp; 8secur — Setup Documentation</h1>
+<div class="sub">
+  Domains: renosly.com, 8secur.com &nbsp;|&nbsp; Host: Hostinger &nbsp;|&nbsp; Registrar: GoDaddy<br>
+  Checked and written 16 August 2026 &nbsp;|&nbsp; Prepared by Anirudha Talmale
+</div>
+
+<h2>1. Summary — where things stand</h2>
+
+<p>Both domains are now pointed at Hostinger and both are serving a website. One item is
+still outstanding: <strong>8secur.com has no SSL certificate</strong>, so it only works on
+<code>http://</code> and browsers will warn visitors. Everything else checks out.</p>
+
+<p class="fr">FR — Les deux domaines pointent maintenant vers Hostinger et affichent un site.
+Il reste un point : <strong>8secur.com n'a pas de certificat SSL</strong>, le site ne fonctionne
+donc qu'en <code>http://</code> et les navigateurs afficheront un avertissement. Le reste est correct.</p>
+
+<table>
+  <tr><th style="width:38%">Check</th><th style="width:31%">renosly.com</th><th style="width:31%">8secur.com</th></tr>
+  <tr><td>Nameservers point to Hostinger</td><td class="ok">OK</td><td class="ok">OK</td></tr>
+  <tr><td>Domain resolves worldwide</td><td class="ok">OK</td><td class="ok">OK</td></tr>
+  <tr><td>Website loads</td><td class="ok">OK</td><td class="ok">OK (http only)</td></tr>
+  <tr><td>HTTPS / SSL certificate</td><td class="ok">OK — valid to 14 Nov 2026</td><td class="bad">MISSING</td></tr>
+  <tr><td>www redirects to main address</td><td class="ok">OK</td><td class="bad">Fails on https</td></tr>
+  <tr><td>Email routing (MX)</td><td class="ok">OK — Hostinger</td><td class="ok">OK — Hostinger</td></tr>
+  <tr><td>SPF (anti-spam record)</td><td class="ok">Present</td><td class="ok">Present</td></tr>
+  <tr><td>DKIM (mail signing)</td><td class="warn">Not published</td><td class="warn">Not published</td></tr>
+  <tr><td>Website content</td><td class="warn">Default WordPress</td><td class="warn">Default WordPress</td></tr>
+</table>
+
+<h2>2. The one thing that still needs doing</h2>
+
+<div class="box action">
+  <h3 style="margin-top:0">Install the SSL certificate on 8secur.com</h3>
+  <p>Right now <code>https://8secur.com</code> does not complete a secure connection — the server
+  has no certificate for that name, so the connection is refused before the page loads.
+  Visitors who type the address with <code>https</code>, or who follow a link from Google or
+  social media, will see a security warning instead of your site.</p>
+  <p><strong>How to fix it (about two minutes):</strong></p>
+  <ol>
+    <li>Log in to Hostinger hPanel</li>
+    <li>Go to <strong>Websites</strong> and select <strong>8secur.com</strong></li>
+    <li>Open <strong>Security &rarr; SSL</strong></li>
+    <li>Click <strong>Install SSL</strong> (the free Let's Encrypt option is fine)</li>
+    <li>Wait 5–15 minutes, then open <code>https://8secur.com</code> to confirm</li>
+  </ol>
+  <p style="margin-bottom:0">Once it is issued, also switch on <strong>Force HTTPS</strong> on the same
+  screen so visitors are always sent to the secure address.</p>
+  <p class="fr" style="margin:2mm 0 0">FR — Il faut installer le certificat SSL de 8secur.com :
+  hPanel &rarr; Websites &rarr; 8secur.com &rarr; Security &rarr; SSL &rarr; Install SSL.
+  Ensuite activez « Force HTTPS ». Comptez 5 à 15 minutes.</p>
+</div>
+
+<h3>Two smaller recommendations</h3>
+<ul>
+  <li><strong>Publish DKIM for both domains.</strong> SPF is in place but DKIM is not. Without DKIM,
+  mail you send from these domains is more likely to land in spam. Hostinger publishes it for you:
+  hPanel &rarr; Emails &rarr; the domain &rarr; DNS / DKIM settings.</li>
+  <li><strong>Set a site title on both sites.</strong> Both currently show the bare domain name as
+  the page title because no title has been entered yet (WordPress &rarr; Settings &rarr; General).</li>
+</ul>
+
+<div class="pagebreak"></div>
+<h2>3. What was changed, and in what order</h2>
+
+<table>
+  <tr><th style="width:22%">Stage</th><th>What happened</th></tr>
+  <tr><td>Starting point</td><td>renosly.com was registered at GoDaddy and sat on GoDaddy's own
+    nameservers (<code>ns47/ns48.domaincontrol.com</code>), showing the GoDaddy parking page.
+    No website, no email.</td></tr>
+  <tr><td>Nameserver change</td><td>At GoDaddy, the domain was switched to custom nameservers
+    <code>ns1.dns-parking.com</code> and <code>ns2.dns-parking.com</code> — Hostinger's.</td></tr>
+  <tr><td>Interim fault</td><td>For a period after that change the domain resolved to
+    <strong>nothing at all</strong>: the nameservers had been handed over, but the domain had not yet
+    been added inside the Hostinger account, so Hostinger's servers answered "no such domain".
+    This is the normal consequence of doing the two steps out of order, and it clears as soon as
+    the domain is added on the host side.</td></tr>
+  <tr><td>Domain added</td><td>Both renosly.com and 8secur.com were added to Hostinger. Hostinger
+    moved them onto its CDN nameservers (<code>aurora</code> / <code>nebula.dns-parking.com</code>)
+    and created full DNS zones — web, mail and SPF records.</td></tr>
+  <tr><td>Current state</td><td>Both domains resolve and serve a fresh WordPress installation.
+    renosly.com has a valid SSL certificate; 8secur.com does not yet.</td></tr>
+</table>
+
+<h2>4. Verification — what was actually tested</h2>
+
+<p>Every line below was checked against public DNS (Cloudflare <code>1.1.1.1</code> and Google
+<code>8.8.8.8</code>) and by opening the sites directly, not taken from a control panel screen.</p>
+
+<table>
+  <tr><th style="width:34%">Test</th><th style="width:33%">renosly.com</th><th style="width:33%">8secur.com</th></tr>
+  <tr><td>Nameservers (public DNS)</td><td>aurora / nebula .dns-parking.com</td><td>aurora / nebula .dns-parking.com</td></tr>
+  <tr><td><code>http://</code> request</td><td>301 &rarr; redirects to https</td><td>200 — loads</td></tr>
+  <tr><td><code>https://</code> request</td><td>200 — loads</td><td class="bad">Connection fails (TLS alert)</td></tr>
+  <tr><td><code>www</code> over https</td><td>301 &rarr; main address</td><td class="bad">Connection fails</td></tr>
+  <tr><td>Certificate issuer</td><td>Let's Encrypt</td><td class="bad">None presented</td></tr>
+  <tr><td>Certificate covers</td><td>renosly.com + www.renosly.com</td><td>—</td></tr>
+  <tr><td>Certificate valid</td><td>16 Aug 2026 &rarr; 14 Nov 2026</td><td>—</td></tr>
+  <tr><td>Mail servers</td><td>mx1 / mx2.hostinger.com</td><td>mx1 / mx2.hostinger.com</td></tr>
+</table>
+
+<div class="box">
+  <p style="margin:0"><strong>One note on checking this yourself.</strong> If you test a domain
+  shortly after a DNS change, your phone, your computer or your office router may still be holding
+  the previous answer in memory for up to a few hours. That can make a site look alive when it is
+  not, or dead when it is fine. The reliable test is to open the address on mobile data with wifi
+  switched off, or simply to wait a few hours before drawing a conclusion.</p>
+  <p class="fr" style="margin:2mm 0 0">FR — Après un changement DNS, votre téléphone ou votre box
+  peut garder l'ancienne réponse en mémoire pendant quelques heures. Testez en 4G avec le wifi coupé.</p>
+</div>
+
+<div class="pagebreak"></div>
+<h2>5. DNS records on file</h2>
+
+<p>Full record exports are in the <code>dns/</code> folder of this pack, one text file per domain.
+Both domains carry the same structure: web records for the domain and <code>www</code>, Hostinger
+mail servers, and an SPF record.</p>
+
+<p><strong>Why the IP addresses change between checks.</strong> Hostinger serves these domains from a
+content delivery network, so the same lookup returns different addresses at different moments.
+That is by design — a different IP on a later check is not a fault.</p>
+
+<h3>renosly.com</h3>
+<table>
+  <tr><th style="width:32%">Record</th><th>Value</th></tr>
+  <tr><td>Nameservers</td><td>aurora.dns-parking.com, nebula.dns-parking.com</td></tr>
+  <tr><td>A / AAAA</td><td>Hostinger CDN addresses (rotating)</td></tr>
+  <tr><td>www</td><td>CNAME &rarr; www.renosly.com.cdn.hstgr.net</td></tr>
+  <tr><td>MX</td><td>mx1.hostinger.com (5), mx2.hostinger.com (10)</td></tr>
+  <tr><td>SPF</td><td>v=spf1 include:_spf.mail.hostinger.com ~all</td></tr>
+  <tr><td>DKIM</td><td class="warn">Not published</td></tr>
+</table>
+
+<h3>8secur.com</h3>
+<table>
+  <tr><th style="width:32%">Record</th><th>Value</th></tr>
+  <tr><td>Nameservers</td><td>aurora.dns-parking.com, nebula.dns-parking.com</td></tr>
+  <tr><td>A / AAAA</td><td>Hostinger CDN addresses (rotating)</td></tr>
+  <tr><td>www</td><td>CNAME &rarr; www.8secur.com.cdn.hstgr.net</td></tr>
+  <tr><td>MX</td><td>mx1.hostinger.com (5), mx2.hostinger.com (10)</td></tr>
+  <tr><td>SPF</td><td>v=spf1 include:_spf.mail.hostinger.com ~all</td></tr>
+  <tr><td>DKIM</td><td class="warn">Not published</td></tr>
+</table>
+
+<h2>6. How the sites look right now</h2>
+
+<p>Both are untouched WordPress installations with the default first post. There is no design or
+content on either yet — that is the next piece of work, whenever you want to start it.</p>
+
+<div class="grid">
+  <div>
+    <img class="shot" src="screenshots/renosly-desktop.png" alt="renosly.com on desktop">
+    <div class="cap">renosly.com — desktop, 1280&times;720</div>
+  </div>
+  <div>
+    <img class="shot" src="screenshots/8secur-desktop.png" alt="8secur.com on desktop">
+    <div class="cap">8secur.com — desktop, 1280&times;720</div>
+  </div>
+</div>
+
+<h2>7. What is in this pack</h2>
+<table>
+  <tr><th style="width:38%">File</th><th>Contents</th></tr>
+  <tr><td><code>Renosly-8secur-Setup-Documentation.pdf</code></td><td>This document</td></tr>
+  <tr><td><code>dns/renosly.com-dns-records.txt</code></td><td>Full DNS record export, renosly.com</td></tr>
+  <tr><td><code>dns/8secur.com-dns-records.txt</code></td><td>Full DNS record export, 8secur.com</td></tr>
+  <tr><td><code>screenshots/</code></td><td>Both sites, desktop and mobile</td></tr>
+  <tr><td><code>CHECKLIST.txt</code></td><td>The outstanding items as a short to-do list</td></tr>
+</table>
+
+<div class="foot">
+  Prepared 16 August 2026 for project "God Almighty" (Freelancer #40651266).<br>
+  Every status in this document was verified against public DNS and by loading the live sites on
+  the date shown. Certificate dates and DNS values may change after that date.
+</div>
+
+</body>
+</html>

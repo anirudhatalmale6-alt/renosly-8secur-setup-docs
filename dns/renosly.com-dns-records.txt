@@ -1,0 +1,21 @@
+DNS RECORDS - renosly.com
+Captured 2026-08-16 (UTC) from public resolver 1.1.1.1
+Authoritative nameservers: aurora.dns-parking.com nebula.dns-parking.com 
+
+NAME                   TYPE   VALUE
+---------------------- ------ -------------------------------------------
+renosly.com            A      2.57.91.24
+renosly.com            A      88.222.222.42
+renosly.com            AAAA   2a02:4780:13:1998:0:262b:a47a:10
+renosly.com            MX     5 mx1.hostinger.com.
+renosly.com            MX     10 mx2.hostinger.com.
+renosly.com            TXT    "v=spf1 include:_spf.mail.hostinger.com ~all"
+www.renosly.com        CNAME  www.renosly.com.cdn.hstgr.net.
+
+NOTE: Hostinger serves these domains from a CDN, so the A / AAAA
+addresses rotate between lookups. Seeing a different IP later is
+normal and is not a fault.
+
+MAIL: MX -> mx1.hostinger.com (priority 5), mx2.hostinger.com (10)
+      SPF record present, authorising Hostinger to send mail.
+      No DKIM record was published at the time of capture.

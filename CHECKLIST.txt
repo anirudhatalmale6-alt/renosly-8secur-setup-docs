@@ -1,0 +1,68 @@
+RENOSLY.COM + 8SECUR.COM - OUTSTANDING ITEMS
+Checked 16 August 2026
+
+=============================================================
+1. INSTALL SSL ON 8SECUR.COM                      [ IMPORTANT ]
+=============================================================
+Problem : https://8secur.com does not connect. The server has no
+          certificate for that name, so the secure connection is
+          refused before the page can load. Anyone arriving via
+          https - including from Google or a shared link - sees a
+          security warning instead of the site.
+          (renosly.com is fine: valid certificate to 14 Nov 2026.)
+
+Fix     : hPanel
+          -> Websites
+          -> 8secur.com
+          -> Security -> SSL
+          -> Install SSL  (free Let's Encrypt is fine)
+          Wait 5-15 minutes, then open https://8secur.com
+
+After it is issued, turn on "Force HTTPS" on the same screen.
+
+FR      : Installer le SSL de 8secur.com dans hPanel :
+          Websites > 8secur.com > Security > SSL > Install SSL,
+          puis activer "Force HTTPS".
+
+
+=============================================================
+2. PUBLISH DKIM FOR BOTH DOMAINS                [ RECOMMENDED ]
+=============================================================
+Problem : Both domains have SPF but no DKIM record. Without DKIM
+          the mail you send from these domains is more likely to
+          be filed as spam by Gmail and Outlook.
+
+Fix     : hPanel -> Emails -> select the domain -> DNS / DKIM
+          Do this for renosly.com AND 8secur.com.
+
+
+=============================================================
+3. SET A SITE TITLE ON BOTH SITES                     [ MINOR ]
+=============================================================
+Problem : Both sites show the bare domain name in the browser tab
+          because no site title has been entered yet.
+
+Fix     : WordPress admin -> Settings -> General -> Site Title
+
+
+=============================================================
+NOT A PROBLEM - things that look wrong but are normal
+=============================================================
+* The IP address of either domain changes between checks.
+  Hostinger serves them from a CDN. Different IP = normal.
+
+* A site can look dead or alive incorrectly for a few hours
+  after a DNS change, because your phone or router caches the
+  old answer. Test on mobile data with wifi off.
+
+
+=============================================================
+ALREADY DONE - no action needed
+=============================================================
+* Both domains point at Hostinger nameservers
+* Both resolve correctly worldwide
+* Both serve a website
+* renosly.com has a valid SSL certificate (to 14 Nov 2026)
+* www.renosly.com redirects to renosly.com
+* Mail routing (MX) is set to Hostinger on both
+* SPF is published on both
